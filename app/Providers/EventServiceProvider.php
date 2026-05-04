@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\Contacts\ContactCreatedEvent;
+use App\Events\Contacts\ContactDeletedEvent;
+use App\Events\Contacts\ContactUpdatedEvent;
+use App\Listeners\DeleteContactInCRMListener;
+use App\Listeners\UpdateContactInCRMListener;
+use App\Listeners\SendContactToCRMListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,12 +24,24 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        ContactCreatedEvent::class => [
+            SendContactToCRMListener::class,
+        ],
+
+        ContactUpdatedEvent::class => [
+            UpdateContactInCRMListener::class,
+        ],
+
+        ContactDeletedEvent::class => [
+            DeleteContactInCRMListener::class,
+        ]
     ];
 
     /**
      * Register any events for your application.
      */
-    public function boot(): void
+    #[\Override] public function boot(): void
     {
         //
     }

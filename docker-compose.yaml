@@ -1,0 +1,60 @@
+services:
+  alfasoft:
+    container_name: "alfasoft"
+    hostname: "alfasoft.localhost"
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    environment:
+      - PHP_IDE_CONFIG=serverName=alfasoft.loc
+    restart: always
+    working_dir: /var/www/html/alfasoft
+    volumes:
+      - ./docker/config/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./:/var/www/html/alfasoft
+      - ~/.ssh:/tmp/ssh-keys
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: bash -c "cp /tmp/ssh-keys/* ~/.ssh && chmod 600 ~/.ssh/* && php-fpm"
+    networks:
+      - alfasoft-network
+
+  alfasoft_nginx:
+    image: nginx:stable-alpine
+    container_name: "alfasoft_nginx"
+    restart: always
+    ports:
+      - "8090:80"
+    volumes:
+      - ./:/var/www/html/alfasoft
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - alfasoft
+    networks:
+      - alfasoft-network
+
+#
+#
+##  Já tenho meu banco em outro container
+#
+#  alfasoft_db:
+#    image: mysql:8.2
+#    container_name: "alfasoft_db"
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+#      MYSQL_DATABASE: ${MYSQL_DATABASE:-alfasoft}
+#      MYSQL_USER: ${MYSQL_USER:-alfasoft_user}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-alfasoft_password}
+#    ports:
+#        - "3306:3306"
+#    volumes:
+#        - db_data:/var/lib/mysql
+#        - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+#    networks:
+#        - alfasoft-network
+
+
+networks:
+  alfasoft-network:
+    driver: bridge
