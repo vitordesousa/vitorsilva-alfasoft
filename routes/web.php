@@ -21,7 +21,7 @@ Route::get('/', function () {
 });*/
 
 Route::get('/', [HomeController::class, 'index'])
-    //->middleware('throttle:10,1')
+    ->middleware('throttle:10,1')
     ->name('home.index');
 
 Route::middleware('auth')
