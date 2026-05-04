@@ -60,7 +60,7 @@
         @empty
 
             <tr>
-                <td colspan="{{ auth()->user() ? 4 : 3 }}"
+                <td colspan="{{ auth()->user() ? 5 : 3 }}"
                     class="border border-slate-300 px-4 py-2 text-center">
                     {{ __('No contacts found.') }}
                 </td>
