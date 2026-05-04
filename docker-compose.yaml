@@ -33,6 +33,27 @@ services:
     networks:
       - alfasoft-network
 
+#
+#
+##  Já tenho meu banco em outro container
+#
+#  alfasoft_db:
+#    image: mysql:8.2
+#    container_name: "alfasoft_db"
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+#      MYSQL_DATABASE: ${MYSQL_DATABASE:-alfasoft}
+#      MYSQL_USER: ${MYSQL_USER:-alfasoft_user}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-alfasoft_password}
+#    ports:
+#        - "3306:3306"
+#    volumes:
+#        - db_data:/var/lib/mysql
+#        - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+#    networks:
+#        - alfasoft-network
+
 
 networks:
   alfasoft-network:
