@@ -21,7 +21,7 @@ class HomeController extends Controller
 
             $header = __('Contacts');
 
-            return view('dashboard.contacts.index', compact('contacts', 'header'));
+            return view('index', compact('contacts', 'header'));
 
         } catch (\Throwable $throwable) {
             Log::error('Error fetching contacts: ' . $throwable->getMessage(), [
