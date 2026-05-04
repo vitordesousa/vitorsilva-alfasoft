@@ -22,6 +22,9 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        // php artisan migrate --seed
+        \Illuminate\Support\Facades\Artisan::call('db:seed --class=DefaultUserSeeder');
     }
 
     /**
