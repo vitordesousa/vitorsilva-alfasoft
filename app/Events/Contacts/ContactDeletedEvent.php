@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Events\Contacts;
+namespace App\Events\Contacts;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -26,8 +26,8 @@ class ContactDeletedEvent
      */
     public function broadcastOn(): array
     {
-        /*return [
-            new PrivateChannel('channel-name'),
-        ];*/
+        return [
+        //    new PrivateChannel('channel-name'),
+        ];
     }
 }
